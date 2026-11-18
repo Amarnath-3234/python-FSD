@@ -1,3 +1,4 @@
+
 name = "amba"
 age = 22
 marks = 89
@@ -10,23 +11,20 @@ print(type(marks))
 print(type(collage))
 print(type(regno))
 
-a=20
-b=10
+a = 20
+b = 10
 
-print(a+b)
-print(a-b)
-print(a*b)
-print(a/b)
-print(a%b) 
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+print(a % b)
 
+marks = int(input("enter your marks"))
 
-   
-marks = int(input("enter your marks")) 
-
-if marks >=90:
+if marks >= 90:
     print("grade A")
-elif marks >=70:
+elif marks >= 70:
     print("grade B")
-elif marks >=60:
-    print("grade C")        
-    
+elif marks >= 60:
+    print("grade C")
