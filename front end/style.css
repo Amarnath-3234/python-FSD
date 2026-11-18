@@ -1,0 +1,113 @@
+/* h1 {
+    color: red;
+}
+
+body {
+    background-color: yellow;
+}
+
+h1 {
+    font-size: 40px;
+    font-family: Arial, sans-serif;
+}
+p{
+    font-size: 20px;
+}
+h1{ 
+    text-align: center;
+}
+div{
+    text-align: center;
+    border: 2px solid black;
+}
+
+button{
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.container {
+    background-color: white;
+    width: 350px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+input{
+    padding: 12px;
+    with: 90%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+} */
+
+
+/* 
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+nav{
+    background-color: rgb(122, 125, 135);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links a{
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+button{
+    background-color: brown;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.card{
+    background-color: aquamarine;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgb(153, 51, 153);
+    flex: 1;
+}
+
+.hero,
+.heading{
+    text-align: center;
+    padding: 30px 20px;
+}
+
+@media (max-width: 600px) {
+    nav{
+        flex-direction: column;
+        text-align:center;
+    }
+
+    .container{
+        flex-direction: column;
+    }
+
+    .nav-links a{
+        display: inline-block;
+        margin: 10px;
+    }
+} */
