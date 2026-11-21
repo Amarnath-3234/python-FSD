@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MovieFlix account{% endblock %}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            background: #101014;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .auth-card {
+            width: min(100%, 440px);
+            padding: 32px;
+            border: 1px solid #333;
+            border-radius: 12px;
+            background: #202027;
+        }
+
+        .brand {
+            color: #e50914;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .auth-card h1 {
+            margin: 24px 0 8px;
+        }
+
+        .auth-description,
+        .auth-footer {
+            color: #bbb;
+        }
+
+        .auth-form {
+            display: grid;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .auth-field {
+            display: grid;
+            gap: 7px;
+        }
+
+        .auth-field input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background: #111;
+            color: white;
+            font: inherit;
+        }
+
+        .auth-field input:focus {
+            outline: 2px solid #e50914;
+            outline-offset: 1px;
+        }
+
+        .auth-submit {
+            padding: 12px;
+            border: 0;
+            border-radius: 6px;
+            background: #e50914;
+            color: white;
+            font: inherit;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-submit:hover {
+            background: #b20710;
+        }
+
+        .form-error {
+            margin: 0;
+            color: #ff8b8b;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: #ff6b73;
+        }
+    </style>
+</head>
+<body>
+    <main class="auth-card">
+        <a class="brand" href="{% url 'home' %}">🎬 MovieFlix</a>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

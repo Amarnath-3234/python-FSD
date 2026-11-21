@@ -1,0 +1,418 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Rating Website</title>
+
+    <!-- CSS START -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #141414;
+            color: white;
+        }
+
+        header {
+            background: #222;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #e50914;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        nav a:hover {
+            color: #e50914;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 70px 20px;
+            background: linear-gradient(135deg, #333, #111);
+        }
+
+        .hero h2 {
+            color: #e50914;
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        section {
+            padding: 35px 5%;
+        }
+
+        section h2 {
+            margin-bottom: 20px;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-btn {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #e50914;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 14px;
+            background: #222;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .movie-container {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(200px, 1fr)
+            );
+            gap: 25px;
+        }
+
+        .movie-card {
+            background: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 15px;
+        }
+
+        .movie-info h3 {
+            margin-bottom: 10px;
+        }
+
+        .movie-info p {
+            color: #bbb;
+            margin-bottom: 10px;
+        }
+
+        .rating {
+            color: #ffc107;
+            margin-bottom: 12px;
+        }
+
+        .rate-btn {
+            background: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .rate-btn:hover {
+            background: #b20710;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 7px;
+            }
+
+            .hero h2 {
+                font-size: 27px;
+            }
+        }
+    </style>
+    <!-- CSS END -->
+
+</head>
+
+<body>
+
+    <!-- HTML START -->
+
+    <header>
+        <h1>🎬 MovieFlix</h1>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#movies">Movies</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h2>Discover Your Favourite Movies</h2>
+        <p>Explore movies, categories and ratings.</p>
+    </section>
+
+    <section id="categories">
+        <h2>Movie Categories</h2>
+
+        <div class="category-list">
+            <button class="category-btn active" data-category="All">All</button>
+            <button class="category-btn" data-category="Action">Action</button>
+            <button class="category-btn" data-category="Comedy">Comedy</button>
+            <button class="category-btn" data-category="Horror">Horror</button>
+            <button class="category-btn" data-category="Romance">Romance</button>
+            <button class="category-btn" data-category="Thriller">Thriller</button>
+        </div>
+    </section>
+
+    <section>
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search your favourite movie..."
+        >
+    </section>
+
+    <section id="movies">
+        <h2>Popular Movies</h2>
+
+        <div class="movie-container" id="movieContainer">
+        </div>
+    </section>
+
+    <!-- HTML END -->
+
+
+    <!-- JAVASCRIPT START -->
+
+    <script>
+
+        const movies = [
+            {
+                id: 1,
+                name: "Inception",
+                category: "Action",
+                rating: 4.8,
+                votes: 10,
+                image: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400"
+            },
+            {
+                id: 2,
+                name: "The Mask",
+                category: "Comedy",
+                rating: 4.5,
+                votes: 8,
+                image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400"
+            },
+            {
+                id: 3,
+                name: "The Conjuring",
+                category: "Horror",
+                rating: 4.7,
+                votes: 12,
+                image: "https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400"
+            },
+            {
+                id: 4,
+                name: "Titanic",
+                category: "Romance",
+                rating: 4.9,
+                votes: 20,
+                image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=400"
+            },
+            {
+                id: 5,
+                name: "Joker",
+                category: "Thriller",
+                rating: 4.6,
+                votes: 15,
+                image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=400"
+            },
+            {
+                id: 6,
+                name: "Mad Max",
+                category: "Action",
+                rating: 4.4,
+                votes: 9,
+                image: "https://images.unsplash.com/photo-1519608487953-e999c86e7455?w=400"
+            }
+        ];
+
+        const movieContainer =
+            document.getElementById("movieContainer");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const categoryButtons =
+            document.querySelectorAll(".category-btn");
+
+        let selectedCategory = "All";
+
+
+        // Display Movies
+        function displayMovies(movieList) {
+
+            movieContainer.innerHTML = "";
+
+            if (movieList.length === 0) {
+                movieContainer.innerHTML = "<p>No movies found!</p>";
+                return;
+            }
+
+            movieList.forEach(movie => {
+
+                const card = document.createElement("div");
+
+                card.className = "movie-card";
+
+                card.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.name}">
+
+                    <div class="movie-info">
+                        <h3>${movie.name}</h3>
+
+                        <p>Category: ${movie.category}</p>
+
+                        <div class="rating">
+                            ⭐ ${movie.rating.toFixed(1)} / 5
+                            (${movie.votes} ratings)
+                        </div>
+
+                        <button class="rate-btn" data-id="${movie.id}">
+                            Rate Movie
+                        </button>
+                    </div>
+                `;
+
+                movieContainer.appendChild(card);
+            });
+        }
+
+
+        // Filter Movies
+        function filterMovies() {
+
+            const searchText =
+                searchInput.value.toLowerCase();
+
+            const filteredMovies = movies.filter(movie => {
+
+                const matchesCategory =
+                    selectedCategory === "All" ||
+                    movie.category === selectedCategory;
+
+                const matchesSearch =
+                    movie.name.toLowerCase().includes(searchText);
+
+                return matchesCategory && matchesSearch;
+            });
+
+            displayMovies(filteredMovies);
+        }
+
+
+        // Category Buttons
+        categoryButtons.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove("active");
+                });
+
+                button.classList.add("active");
+
+                selectedCategory = button.dataset.category;
+
+                filterMovies();
+            });
+        });
+
+
+        // Search Movies
+        searchInput.addEventListener("input", filterMovies);
+
+
+        // Movie Rating
+        movieContainer.addEventListener("click", event => {
+
+            if (event.target.classList.contains("rate-btn")) {
+
+                const movieId =
+                    Number(event.target.dataset.id);
+
+                const movie = movies.find(
+                    m => m.id === movieId
+                );
+
+                const userRating = Number(
+                    prompt("Give your rating from 1 to 5:")
+                );
+
+                if (
+                    !Number.isFinite(userRating) ||
+                    userRating < 1 ||
+                    userRating > 5
+                ) {
+                    alert("Please enter a rating between 1 and 5.");
+                    return;
+                }
+
+                movie.rating =
+                    ((movie.rating * movie.votes) + userRating) /
+                    (movie.votes + 1);
+
+                movie.votes++;
+
+                alert("Thank you for rating " + movie.name);
+
+                filterMovies();
+            }
+        });
+
+
+        // Initial Display
+        displayMovies(movies);
+
+    </script>
+
+    <!-- JAVASCRIPT END -->
+
+</body>
+</html>
+

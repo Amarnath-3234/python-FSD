@@ -1,0 +1,29 @@
+{% extends "movie_rating/auth_base.html" %}
+
+{% block title %}Log in | MovieFlix{% endblock %}
+
+{% block content %}
+    <h1>Log in</h1>
+    <p class="auth-description">Use your email and password to continue.</p>
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="auth-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <p class="form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <p class="form-error">{{ error }}</p>
+        {% endfor %}
+        <button class="auth-submit" type="submit">Log in</button>
+    </form>
+
+    <p class="auth-footer">
+        New to MovieFlix? <a href="{% url 'signup' %}">Create an account</a>
+    </p>
+{% endblock %}

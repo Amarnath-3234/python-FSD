@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieFlix - Movie Collection</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #101014;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background: #202027;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #e50914;
+    font-size: 28px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 18px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.account-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: 18px;
+}
+
+.account-links a {
+    margin-left: 0;
+}
+
+.account-greeting {
+    color: #ddd;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.auth-nav-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.auth-nav-button:hover {
+    color: #e50914;
+}
+
+.hero {
+    padding: 75px 20px;
+    text-align: center;
+    background: linear-gradient(120deg, #720000, #151515);
+}
+
+.hero h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #ddd;
+}
+
+section {
+    padding: 30px 5%;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.language-list,
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: #303038;
+    color: white;
+    border: none;
+    padding: 11px 19px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #e50914;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 14px;
+    background: #222;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.movie-container {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fill, minmax(175px, 1fr));
+    gap: 22px;
+}
+
+.movie-card {
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.movie-card:hover {
+    transform: translateY(-7px);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 265px;
+    object-fit: cover;
+    background: #333;
+}
+
+.movie-info {
+    padding: 13px;
+}
+
+.movie-info h3 {
+    font-size: 16px;
+    margin-bottom: 9px;
+}
+
+.movie-info p {
+    color: #bbb;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.rating {
+    color: #ffc107;
+    margin-bottom: 12px;
+}
+
+.details-btn {
+    width: 100%;
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.rate-btn {
+    width: 100%;
+    margin-top: 8px;
+    background: #303038;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.rate-btn:hover {
+    background: #484850;
+}
+
+.rating-control {
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.rating-control[hidden] {
+    display: none;
+}
+
+.rating-control label {
+    color: #ddd;
+    font-size: 13px;
+}
+
+.rating-input {
+    width: 100%;
+    margin-top: 6px;
+    padding: 9px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+}
+
+.save-rating-btn {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 9px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#loadMore {
+    display: block;
+    margin: 30px auto;
+    padding: 13px 30px;
+    background: #e50914;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#loadMore:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#status {
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+footer {
+    background: #222;
+    text-align: center;
+    padding: 25px;
+    color: #aaa;
+}
+
+@media(max-width:600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav a {
+        margin: 0 7px;
+    }
+
+    .account-links {
+        margin-left: 0;
+    }
+
+    .hero h2 {
+        font-size: 27px;
+    }
+
+    .movie-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .movie-card img {
+        height: 220px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1 class="logo">🎬 MovieFlix</h1>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#languages">Languages</a>
+        <a href="#movies">Movies</a>
+        <div class="account-links">
+            {% if user.is_authenticated %}
+                <span class="account-greeting">Hi, {{ user.first_name|default:user.email }}</span>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button class="auth-nav-button" type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'signup' %}">Sign up</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
+
+<section class="hero" id="home">
+    <h2>Welcome to MovieFlix 🎥</h2>
+    <p>Explore Movies From Around The World</p>
+</section>
+
+<section id="languages">
+    <h2>🌍 Select Movie Language</h2>
+
+    <div class="language-list" id="languageList">
+        <button class="filter-btn active" data-lang="all">
+            All Languages
+        </button>
+
+        <button class="filter-btn" data-lang="ta">Tamil</button>
+        <button class="filter-btn" data-lang="kn">Kannada</button>
+        <button class="filter-btn" data-lang="te">Telugu</button>
+        <button class="filter-btn" data-lang="ml">Malayalam</button>
+        <button class="filter-btn" data-lang="hi">Hindi</button>
+        <button class="filter-btn" data-lang="en">English</button>
+        <button class="filter-btn" data-lang="bn">Bengali</button>
+        <button class="filter-btn" data-lang="mr">Marathi</button>
+        <button class="filter-btn" data-lang="ja">Japanese</button>
+        <button class="filter-btn" data-lang="ko">Korean</button>
+        <button class="filter-btn" data-lang="es">Spanish</button>
+        <button class="filter-btn" data-lang="fr">French</button>
+        <button class="filter-btn" data-lang="zh">Chinese</button>
+        <button class="filter-btn" data-lang="de">German</button>
+        <button class="filter-btn" data-lang="it">Italian</button>
+        <button class="filter-btn" data-lang="pt">Portuguese</button>
+        <button class="filter-btn" data-lang="ar">Arabic</button>
+    </div>
+</section>
+
+<section>
+    <h2>🎭 Movie Categories</h2>
+
+    <div class="genre-list" id="genreList">
+        <button class="filter-btn active" data-genre="all">All</button>
+        <button class="filter-btn" data-genre="28">Action</button>
+        <button class="filter-btn" data-genre="35">Comedy</button>
+        <button class="filter-btn" data-genre="18">Drama</button>
+        <button class="filter-btn" data-genre="27">Horror</button>
+        <button class="filter-btn" data-genre="53">Thriller</button>
+        <button class="filter-btn" data-genre="10749">Romance</button>
+        <button class="filter-btn" data-genre="878">Sci-Fi</button>
+        <button class="filter-btn" data-genre="12">Adventure</button>
+        <button class="filter-btn" data-genre="16">Animation</button>
+    </div>
+</section>
+
+<section>
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="🔍 Search movie by name..."
+    >
+</section>
+
+<section id="movies">
+
+    <h2 id="collectionTitle">🔥 Popular Movies</h2>
+
+    <p id="status">Loading movies...</p>
+
+    <div class="movie-container" id="movieContainer"></div>
+
+    <button id="loadMore">Load More Movies</button>
+
+</section>
+
+<footer>
+    <p>🎬 MovieFlix</p>
+    <p>Explore • Discover • Enjoy Movies</p>
+    <p>Movie information and images provided by TMDB.</p>
+</footer>
+
+
+<script>
+
+const API_URL = "/api/movies/";
+
+const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+
+
+// =====================================
+// 2. GLOBAL VARIABLES
+// =====================================
+
+let selectedLanguage = "all";
+let selectedGenre = "all";
+
+let currentPage = 1;
+let totalPages = 1;
+
+let allMovies = [];
+const userRatings = new Map();
+
+let loading = false;
+let searchText = "";
+
+const movieContainer =
+    document.getElementById("movieContainer");
+
+const statusText =
+    document.getElementById("status");
+
+const loadMoreButton =
+    document.getElementById("loadMore");
+
+
+// =====================================
+// 3. LOAD MOVIES FROM TMDB
+// =====================================
+
+async function loadMovies(reset = false) {
+
+    if (loading) return;
+
+    if (reset) {
+        currentPage = 1;
+        allMovies = [];
+        movieContainer.innerHTML = "";
+    }
+
+    if (currentPage > totalPages) {
+        statusText.textContent = "No more movies available.";
+        return;
+    }
+
+    loading = true;
+    loadMoreButton.disabled = true;
+
+    statusText.textContent = "Loading movies...";
+
+    try {
+
+        const params = new URLSearchParams({
+            page: String(currentPage)
+        });
+
+        if (selectedLanguage !== "all") {
+            params.set("original_language", selectedLanguage);
+        }
+
+        const response = await fetch(
+            `${API_URL}?${params}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "TMDB request failed: " + response.status
+            );
+        }
+
+        totalPages = Math.min(data.total_pages, 500);
+
+        allMovies.push(...data.results);
+
+        currentPage++;
+
+        displayMovies();
+
+        statusText.textContent =
+            `Showing ${allMovies.length} movies`;
+
+        loadMoreButton.disabled =
+            currentPage > totalPages;
+
+    } catch (error) {
+
+        console.error(error);
+
+        statusText.textContent = error instanceof Error
+            ? error.message
+            : "Unable to load movies.";
+
+    } finally {
+
+        loading = false;
+
+    }
+}
+
+
+// =====================================
+// 4. DISPLAY MOVIES AND POSTERS
+// =====================================
+
+function displayMovies() {
+
+    movieContainer.innerHTML = "";
+
+    let filteredMovies = allMovies.filter(movie => {
+
+        const matchesGenre =
+            selectedGenre === "all" ||
+            movie.genre_ids.includes(
+                Number(selectedGenre)
+            );
+
+        const matchesSearch =
+            movie.title.toLowerCase().includes(
+                searchText.toLowerCase()
+            );
+
+        return matchesGenre && matchesSearch;
+
+    });
+
+    if (filteredMovies.length === 0) {
+
+        movieContainer.innerHTML =
+            "<p>No movies found!</p>";
+
+        return;
+    }
+
+    filteredMovies.forEach(movie => {
+
+        const card = document.createElement("div");
+
+        card.className = "movie-card";
+
+        const poster = movie.poster_path
+            ? IMAGE_URL + movie.poster_path
+            : "https://placehold.co/400x600/222/fff?text=No+Poster";
+
+        const year = movie.release_date
+            ? movie.release_date.substring(0, 4)
+            : "Unknown";
+
+        const rating = Number(movie.vote_average || 0);
+        const userRating = userRatings.get(movie.id);
+        const userRatingLabel = userRating === undefined
+            ? "Rate Movie"
+            : `Your Rating: ${userRating}/10`;
+
+        card.innerHTML = `
+            <img
+                src="${poster}"
+                alt="Movie poster"
+                loading="lazy"
+            >
+
+            <div class="movie-info">
+
+                <h3>${escapeHTML(movie.title)}</h3>
+
+                <p>Release: ${year}</p>
+
+                <div class="rating">
+                    ⭐ ${rating.toFixed(1)} / 10
+                </div>
+
+                <button class="details-btn">
+                    View Details
+                </button>
+
+                <button class="rate-btn" type="button">
+                    ${userRatingLabel}
+                </button>
+
+                <form class="rating-control" hidden>
+                    <label>
+                        Rate this movie from 1 to 10
+                        <input
+                            class="rating-input"
+                            type="number"
+                            min="1"
+                            max="10"
+                            step="1"
+                            required
+                        >
+                    </label>
+                    <button class="save-rating-btn" type="submit">
+                        Save Rating
+                    </button>
+                </form>
+
+                <p class="overview" style="display:none;">
+                    ${escapeHTML(movie.overview || "No description available.")}
+                </p>
+
+            </div>
+        `;
+
+        card.querySelector(".details-btn")
+            .addEventListener("click", () => {
+
+                alert(
+                    movie.title +
+                    "\n\nRelease: " + year +
+                    "\nRating: " + rating.toFixed(1) +
+                    "\n\n" +
+                    (movie.overview || "No description available.")
+                );
+
+            });
+
+        const rateButton = card.querySelector(".rate-btn");
+        const ratingForm = card.querySelector(".rating-control");
+        const ratingInput = card.querySelector(".rating-input");
+
+        rateButton.addEventListener("click", () => {
+            ratingForm.hidden = !ratingForm.hidden;
+            if (!ratingForm.hidden) {
+                const currentRating = userRatings.get(movie.id);
+                ratingInput.value =
+                    currentRating === undefined ? "" : String(currentRating);
+                ratingInput.focus();
+            }
+        });
+
+        ratingForm.addEventListener("submit", event => {
+            event.preventDefault();
+
+            const newRating = Number(ratingInput.value);
+            if (!Number.isInteger(newRating) ||
+                newRating < 1 ||
+                newRating > 10) {
+                return;
+            }
+
+            userRatings.set(movie.id, newRating);
+            rateButton.textContent = `Your Rating: ${newRating}/10`;
+            ratingForm.hidden = true;
+        });
+
+        movieContainer.appendChild(card);
+
+    });
+
+}
+
+
+// =====================================
+// 5. SAFE TEXT DISPLAY
+// =====================================
+
+function escapeHTML(value) {
+
+    return String(value).replace(
+        /[&<>"']/g,
+        char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        })[char]
+    );
+
+}
+
+
+// =====================================
+// 6. LANGUAGE FILTER
+// =====================================
+
+document.querySelectorAll("[data-lang]")
+.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        document.querySelectorAll("[data-lang]")
+        .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        selectedLanguage = button.dataset.lang;
+
+        document.getElementById("collectionTitle")
+            .textContent =
+            selectedLanguage === "all"
+                ? "🔥 Popular Movies"
+                : "🎬 " +
+                  button.textContent +
+                  " Movie Collection";
+
+        loadMovies(true);
+
+    });
+
+});
+
+
+// =====================================
+// 7. GENRE FILTER
+// =====================================
+
+document.querySelectorAll("[data-genre]")
+.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        document.querySelectorAll("[data-genre]")
+        .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        selectedGenre = button.dataset.genre;
+
+        displayMovies();
+
+    });
+
+});
+
+
+// =====================================
+// 8. SEARCH MOVIES
+// =====================================
+
+document.getElementById("searchInput")
+.addEventListener("input", event => {
+
+    searchText = event.target.value;
+
+    displayMovies();
+
+});
+
+
+// =====================================
+// 9. LOAD MORE MOVIES
+// =====================================
+
+loadMoreButton.addEventListener("click", () => {
+
+    loadMovies();
+
+});
+
+
+// =====================================
+// 10. INITIAL MOVIE COLLECTION
+// =====================================
+
+loadMovies(true);
+
+</script>
+
+</body>
+</html>
+ 
